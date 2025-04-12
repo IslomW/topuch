@@ -1,21 +1,24 @@
 package com.sharipov.topuch.entity;
 
 
+import jakarta.persistence.*;
 
-public class Image   {
-
-    Long imageId;
-    Integer  ts;
-    Long  postId;
-    String imageAddress;
+import java.time.LocalDateTime;
 
 
+@Entity
+@Table(name = "images")
+public class Image {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long imageId;
+    private LocalDateTime createdAt;
+    private String imageAddress;
 
 
-//    CREATE TABLE Images  (
-//            id SERIAL PRIMARY KEY,
-//            ts INTEGER,
-//            post_id INTEGER REFERENCES Posts(id),
-//            image_address TEXT
-//);
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+
 }
