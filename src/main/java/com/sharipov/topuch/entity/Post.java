@@ -1,22 +1,31 @@
 package com.sharipov.topuch.entity;
 
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
+
+@Entity
+@Table(name = "posts")
 public class Post {
-<<<<<<< HEAD
-=======
-
->>>>>>> 6fed9ec (all)
+    @Id
     private Long postId;
-    private Integer locationId;
     private String title;
     private String description;
-    private Integer price;
-    private LocalDateTime created_ad;
-<<<<<<< HEAD
-=======
+    private BigDecimal price;
+    private LocalDateTime created_at;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Image> images;
+
+    @Enumerated(EnumType.STRING)
     private Condition condition;
+
+    @ManyToOne
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 
->>>>>>> 6fed9ec (all)
+
 }
