@@ -1,4 +1,4 @@
-package com.sharipov.topuch.entity;
+package com.sharipov.topuch.domain.entity;
 
 import jakarta.persistence.*;
 

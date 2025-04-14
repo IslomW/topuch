@@ -1,6 +1,6 @@
-package com.sharipov.topuch.service;
+package com.sharipov.topuch.domain.entity.service;
 
-import com.sharipov.topuch.entity.Profile;
+import com.sharipov.topuch.domain.entity.Profile;
 
 import java.util.List;
 

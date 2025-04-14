@@ -1,11 +1,11 @@
-package com.sharipov.topuch.service.impl;
+package com.sharipov.topuch.domain.entity.service.impl;
 
 
-import com.sharipov.topuch.entity.Post;
+import com.sharipov.topuch.domain.entity.Post;
+import com.sharipov.topuch.domain.entity.service.PostService;
 import com.sharipov.topuch.exception.PostNotFound;
 import com.sharipov.topuch.exception.PostUnchangedException;
-import com.sharipov.topuch.repository.PostRepository;
-import com.sharipov.topuch.service.PostService;
+import com.sharipov.topuch.domain.entity.repository.PostRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import java.util.stream.Collectors;
 
 @Service
 public class PostServiceImpl implements PostService {

@@ -1,6 +1,6 @@
-package com.sharipov.topuch.controller;
+package com.sharipov.topuch.web.controller;
 
-import com.sharipov.topuch.entity.Profile;
+import com.sharipov.topuch.domain.entity.Profile;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

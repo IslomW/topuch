@@ -1,6 +1,6 @@
-package com.sharipov.topuch.repository;
+package com.sharipov.topuch.domain.entity.repository;
 
-import com.sharipov.topuch.entity.Post;
+import com.sharipov.topuch.domain.entity.Post;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
