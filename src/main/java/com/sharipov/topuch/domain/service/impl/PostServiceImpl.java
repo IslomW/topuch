@@ -1,11 +1,11 @@
-package com.sharipov.topuch.domain.entity.service.impl;
+package com.sharipov.topuch.domain.service.impl;
 
 
 import com.sharipov.topuch.domain.entity.Post;
-import com.sharipov.topuch.domain.entity.service.PostService;
-import com.sharipov.topuch.exception.PostNotFound;
-import com.sharipov.topuch.exception.PostUnchangedException;
-import com.sharipov.topuch.domain.entity.repository.PostRepository;
+import com.sharipov.topuch.domain.service.PostService;
+import com.sharipov.topuch.domain.repository.PostRepository;
+import com.sharipov.topuch.domain.exception.PostNotFound;
+import com.sharipov.topuch.domain.exception.PostUnchangedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -45,10 +45,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post updatePost(Post post) {
         Post exist = getPostById(post.getPostId())
-                .orElseThrow(() -> new PostNotFound("Post with Id:" + post.getPostId() + " not found"));
+                .orElseThrow(() -> new PostNotFound(post.getPostId()));
 
         if (exist.equals(post)) {
-            throw new PostUnchangedException("Post with Id:" + post.getPostId() + " has not been changed");
+            throw new PostUnchangedException(post.getPostId());
         }
 
         return repository.save(post);
@@ -57,7 +57,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deletePostById(Long id) {
         Post exist = getPostById(id)
-                .orElseThrow(() -> new PostNotFound("Post with Id:" + id + " not found"));
+                .orElseThrow(() -> new PostNotFound(id));
 
         repository.deleteById(id);
 

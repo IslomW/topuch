@@ -1,7 +1,7 @@
-package com.sharipov.topuch.domain.entity.service.impl;
+package com.sharipov.topuch.domain.service.impl;
 
 import com.sharipov.topuch.domain.entity.Post;
-import com.sharipov.topuch.domain.entity.service.PostService;
+import com.sharipov.topuch.domain.service.PostService;
 
 import java.util.List;
 import java.util.Optional;

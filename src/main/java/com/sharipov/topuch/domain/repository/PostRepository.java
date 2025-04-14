@@ -1,4 +1,4 @@
-package com.sharipov.topuch.domain.entity.repository;
+package com.sharipov.topuch.domain.repository;
 
 import com.sharipov.topuch.domain.entity.Post;
 import jakarta.transaction.Transactional;

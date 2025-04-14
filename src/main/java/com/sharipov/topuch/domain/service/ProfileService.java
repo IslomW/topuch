@@ -1,4 +1,4 @@
-package com.sharipov.topuch.domain.entity.service;
+package com.sharipov.topuch.domain.service;
 
 import com.sharipov.topuch.domain.entity.Profile;
 
