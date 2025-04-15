@@ -1,4 +1,4 @@
 package com.sharipov.topuch.application.dto;
 
-public record PostDTO() {
+public record ProfileDTO() {
 }
