@@ -1,4 +1,4 @@
-package com.sharipov.topuch.application.dto;
+package com.sharipov.topuch.application.dto.response;
 
 import com.sharipov.topuch.domain.entity.Abuse;
 
