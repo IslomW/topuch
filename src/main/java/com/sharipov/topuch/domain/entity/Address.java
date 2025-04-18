@@ -10,12 +10,12 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long addressId;
-    private String country_code;
+    private String countryCode;
     private String state;
     private String city;
-    private String  street_name;
-    private Integer street_number;
-    private String zip_code;
+    private String  streetName;
+    private Integer streetNumber;
+    private String zipCode;
 
 
     public Long getAddressId() {
@@ -24,14 +24,15 @@ public class Address {
 
     public void setAddressId(Long addressId) {
         this.addressId = addressId;
+
     }
 
-    public String getCountry_code() {
-        return country_code;
+    public String getCountryCode() {
+        return countryCode;
     }
 
-    public void setCountry_code(String country_code) {
-        this.country_code = country_code;
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 
     public String getState() {
@@ -50,27 +51,27 @@ public class Address {
         this.city = city;
     }
 
-    public String getStreet_name() {
-        return street_name;
+    public String getStreetName() {
+        return streetName;
     }
 
-    public void setStreet_name(String street_name) {
-        this.street_name = street_name;
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
     }
 
-    public Integer getStreet_number() {
-        return street_number;
+    public Integer getStreetNumber() {
+        return streetNumber;
     }
 
-    public void setStreet_number(Integer street_number) {
-        this.street_number = street_number;
+    public void setStreetNumber(Integer streetNumber) {
+        this.streetNumber = streetNumber;
     }
 
-    public String getZip_code() {
-        return zip_code;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public void setZip_code(String zip_code) {
-        this.zip_code = zip_code;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
     }
 }

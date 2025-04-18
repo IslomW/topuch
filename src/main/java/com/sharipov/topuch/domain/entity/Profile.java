@@ -11,8 +11,8 @@ public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long profileId;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private LocalDateTime createdAt;
     private Long phoneNumber;
     private String email;
@@ -29,21 +29,7 @@ public class Profile {
         this.profileId = profileId;
     }
 
-    public String getFirst_name() {
-        return first_name;
-    }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -77,12 +63,29 @@ public class Profile {
         this.address = address;
     }
 
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     @Override
     public String toString() {
         return "Profile{" +
                 "profileId=" + profileId +
-                ", first_name='" + first_name + '\'' +
-                ", last_name='" + last_name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", createdAt=" + createdAt +
                 ", phoneNumber=" + phoneNumber +
                 ", email='" + email + '\'' +
