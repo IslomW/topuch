@@ -4,6 +4,7 @@ import com.sharipov.topuch.domain.entity.Profile;
 
 import java.util.List;
 
+
 public interface ProfileService {
 
     List<Profile> getAllProfile();
@@ -11,7 +12,7 @@ public interface ProfileService {
 
     Profile createProfile(Profile profile);
 
-    void updateProfile(Profile profile);
+    Profile updateProfile(Long id, Profile profile);
 
     void deleteProfileById(Long id);
 

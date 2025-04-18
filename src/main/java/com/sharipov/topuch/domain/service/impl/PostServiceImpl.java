@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -32,20 +31,21 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Optional<Post> getPostById(Long id) {
-        return repository.findById(id);
+    public Post getPostById(Long id) {
+        Post post = repository.findById(id).orElseThrow(()-> new PostNotFound(id));
+        return post;
     }
 
     @Override
     public Post createPost(Post post) {
+        post.setCreated_at(LocalDateTime.now());
         Post result = repository.save(post);
         return result;
     }
 
     @Override
     public Post updatePost(Post post) {
-        Post exist = getPostById(post.getPostId())
-                .orElseThrow(() -> new PostNotFound(post.getPostId()));
+        Post exist = getPostById(post.getPostId());
 
         if (exist.equals(post)) {
             throw new PostUnchangedException(post.getPostId());
@@ -56,8 +56,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void deletePostById(Long id) {
-        Post exist = getPostById(id)
-                .orElseThrow(() -> new PostNotFound(id));
+        Post exist = getPostById(id);
 
         repository.deleteById(id);
 
