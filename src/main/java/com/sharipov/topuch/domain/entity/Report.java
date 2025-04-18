@@ -25,4 +25,13 @@ public class Report {
     @JoinColumn(name = "profile_id")
     private Profile profileId;
 
+
+    public Report(Long reportId, LocalDateTime reportedAt, Abuse abuseType, String message, Post postId, Profile profileId) {
+        this.reportId = reportId;
+        this.reportedAt = reportedAt;
+        this.abuseType = abuseType;
+        this.message = message;
+        this.postId = postId;
+        this.profileId = profileId;
+    }
 }
