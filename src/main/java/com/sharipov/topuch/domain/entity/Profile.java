@@ -1,8 +1,6 @@
 package com.sharipov.topuch.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Entity

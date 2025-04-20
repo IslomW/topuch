@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = AddressMapper.class)
 public interface ProfileMapper {
 
-    ProfileRequestDTO toDto(Profile profile);
+    ProfileResponseDTO toDto(Profile profile);
 
     Profile toEntity(ProfileRequestDTO profileRequestDTO);
 

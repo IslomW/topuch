@@ -1,0 +1,27 @@
+###Create User
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "firstName": "Ali",
+  "lastName": "Ali",
+  "phoneNumber": 6292882,
+  "email": "jigarlar05@gmail.com",
+  "address": {
+    "countryCode": "221343",
+    "state": "Sergeli",
+    "city": "Tashkent",
+    "streetName": "Navroz",
+    "streetNumber": "123343",
+    "zipCode": "989545445"
+  }
+}
+
+###Get All Users
+GET http://localhost:8080/api/users
+
+###Get User by id
+GET http://localhost:8080/api/users/402
+
+###Delete User by id
+DELETE http://localhost:8080/api/users/102
