@@ -44,11 +44,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post updatePost(Post post) {
-        Post exist = getPostById(post.getPostId());
+    public Post updatePost(Long postId, Post post) {
+        Post exist = getPostById(postId);
 
         if (exist.equals(post)) {
-            throw new PostUnchangedException(post.getPostId());
+            throw new PostUnchangedException(postId);
         }
 
         return repository.save(post);
