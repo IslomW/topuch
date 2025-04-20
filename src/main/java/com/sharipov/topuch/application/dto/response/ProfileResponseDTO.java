@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 
 public record ProfileResponseDTO(
          Long profileId,
-         String first_name,
-         String last_name,
+         String firstName,
+         String lastName,
          LocalDateTime createdAt,
          Long phoneNumber,
          String email,

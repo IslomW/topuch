@@ -1,10 +1,10 @@
 package com.sharipov.topuch.application.dto;
 
 public record AddressDTO(
-        String country_code,
+        String countryCode,
         String state,
         String city,
-        String  street_name,
-        Integer street_number,
-        String zip_code) {
+        String  streetName,
+        Integer streetNumber,
+        String zipCode) {
 }

@@ -5,8 +5,8 @@ import com.sharipov.topuch.domain.entity.Address;
 
 
 public record ProfileRequestDTO(
-        String first_name,
-        String last_name,
+        String firstName,
+        String lastName,
         Long phoneNumber,
         String email,
         AddressDTO address

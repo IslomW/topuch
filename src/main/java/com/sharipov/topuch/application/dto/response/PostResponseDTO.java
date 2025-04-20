@@ -12,7 +12,7 @@ public record PostResponseDTO(
                       String title,
                       String description,
                       BigDecimal price,
-                      LocalDateTime created_at,
+                      LocalDateTime createdAt,
                       List<ImageDTO> images,
                       Condition condition) {
 }
