@@ -2,7 +2,6 @@ package com.sharipov.topuch.domain.service.impl;
 
 import com.sharipov.topuch.domain.entity.Profile;
 import com.sharipov.topuch.domain.exception.PostNotFound;
-import com.sharipov.topuch.domain.exception.PostUnchangedException;
 import com.sharipov.topuch.domain.repository.ProfileRepository;
 import com.sharipov.topuch.domain.service.ProfileService;
 import org.springframework.stereotype.Service;

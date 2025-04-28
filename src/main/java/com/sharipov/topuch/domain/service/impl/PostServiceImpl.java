@@ -5,7 +5,6 @@ import com.sharipov.topuch.domain.entity.Post;
 import com.sharipov.topuch.domain.service.PostService;
 import com.sharipov.topuch.domain.repository.PostRepository;
 import com.sharipov.topuch.domain.exception.PostNotFound;
-import com.sharipov.topuch.domain.exception.PostUnchangedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -48,7 +47,7 @@ public class PostServiceImpl implements PostService {
         Post exist = getPostById(postId);
 
         if (exist.equals(post)) {
-            throw new PostUnchangedException(postId);
+            return exist;
         }
 
         return repository.save(post);
