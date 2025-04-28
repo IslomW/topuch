@@ -1,4 +1,4 @@
-package com.sharipov.topuch.application.dto.request;
+package com.sharipov.topuch.application.dto;
 
-public record CategoryDTO() {
+public record CategoryDTO(String name) {
 }
