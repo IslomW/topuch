@@ -42,7 +42,7 @@ public class ProfileServiceImpl implements ProfileService {
         Profile exist = getProfileById(id);
 
         if (exist.equals(profile)){
-            throw new PostUnchangedException(id);
+            return exist;
         }
 
         return profileRepository.save(profile);

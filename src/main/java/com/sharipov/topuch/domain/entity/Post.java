@@ -11,6 +11,7 @@ import java.util.List;
 @Table(name = "posts")
 public class Post {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long postId;
     private String title;
     private String description;
@@ -23,10 +24,26 @@ public class Post {
     @Enumerated(EnumType.STRING)
     private Condition condition;
 
-    @ManyToOne
     @JoinColumn(name = "profile_id")
-    private Profile profile;
+    private Long profileId;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+
+    public Post() {
+    }
+
+    public Post(String title, String description, BigDecimal price, LocalDateTime created_at, Condition condition, Long profileId, Category category) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.created_at = created_at;
+        this.condition = condition;
+        this.profileId = profileId;
+        this.category = category;
+    }
 
     public Long getPostId() {
         return postId;
@@ -84,11 +101,19 @@ public class Post {
         this.condition = condition;
     }
 
-    public Profile getProfile() {
-        return profile;
+    public Long getProfileId() {
+        return profileId;
     }
 
-    public void setProfile(Profile profile) {
-        this.profile = profile;
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

@@ -26,6 +26,9 @@ public class Report {
     private Profile profileId;
 
 
+    public Report() {
+    }
+
     public Report(Long reportId, LocalDateTime reportedAt, Abuse abuseType, String message, Post postId, Profile profileId) {
         this.reportId = reportId;
         this.reportedAt = reportedAt;

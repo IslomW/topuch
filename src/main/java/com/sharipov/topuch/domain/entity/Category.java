@@ -2,8 +2,6 @@ package com.sharipov.topuch.domain.entity;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 public class Category {
 
@@ -14,6 +12,14 @@ public class Category {
 
     private Long parentId;
 
+
+    public Category(String name) {
+        this.name = name;
+    }
+
+    public Category() {
+
+    }
 
     public Long getCategoryId() {
         return categoryId;
