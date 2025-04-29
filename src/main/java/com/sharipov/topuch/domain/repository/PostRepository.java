@@ -14,12 +14,12 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query("select p.postId from Post p where p.created_at < :date")
+    @Query("select p.postId from Post p where p.createdAt < :date")
     List<Long> findAllIdsByCreateAtBefore(@Param("date")LocalDateTime date);
 
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Post p WHERE p.created_at < :date")
+    @Query("DELETE FROM Post p WHERE p.createdAt < :date")
     void deleteAllOlderThan(@Param("date") LocalDateTime date);
 }
