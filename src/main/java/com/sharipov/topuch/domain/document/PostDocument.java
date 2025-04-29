@@ -3,23 +3,32 @@ package com.sharipov.topuch.domain.document;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDateTime;
 
-@Document(indexName = "products")
+@Document(indexName = "posts")
 public class PostDocument {
 
     @Id
     private String postId;
 
+    @Field(type = FieldType.Text)
     private String title;
+    @Field(type = FieldType.Text)
     private String description;
+    @Field(type = FieldType.Double)
     private Double price;
+    @Field(type = FieldType.Date)
     private LocalDateTime createdAt;
+    @Field(type = FieldType.Keyword)
     private String introductionImageUrl;
-
+    @Field(type = FieldType.Keyword)
     private String condition;
+    @Field(type = FieldType.Keyword)
     private String categoryName;
+    @Field(type = FieldType.Keyword)
     private String subcategoryName;
 
     public String getPostId() {
@@ -92,5 +101,20 @@ public class PostDocument {
 
     public void setSubcategoryName(String subcategoryName) {
         this.subcategoryName = subcategoryName;
+    }
+
+    @Override
+    public String toString() {
+        return "PostDocument{" +
+                "postId='" + postId + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", createdAt=" + createdAt +
+                ", introductionImageUrl='" + introductionImageUrl + '\'' +
+                ", condition='" + condition + '\'' +
+                ", categoryName='" + categoryName + '\'' +
+                ", subcategoryName='" + subcategoryName + '\'' +
+                '}';
     }
 }
