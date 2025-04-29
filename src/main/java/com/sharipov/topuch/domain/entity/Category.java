@@ -13,6 +13,12 @@ public class Category {
     private Long parentId;
 
 
+    public Category(Long categoryId, String name, Long parentId) {
+        this.categoryId = categoryId;
+        this.name = name;
+        this.parentId = parentId;
+    }
+
     public Category(String name) {
         this.name = name;
     }
