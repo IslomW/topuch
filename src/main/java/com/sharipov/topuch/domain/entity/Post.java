@@ -16,7 +16,7 @@ public class Post {
     private String title;
     private String description;
     private BigDecimal price;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Image> images;
@@ -35,11 +35,11 @@ public class Post {
     public Post() {
     }
 
-    public Post(String title, String description, BigDecimal price, LocalDateTime created_at, Condition condition, Long profileId, Category category) {
+    public Post(String title, String description, BigDecimal price, LocalDateTime createdAt, Condition condition, Long profileId, Category category) {
         this.title = title;
         this.description = description;
         this.price = price;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
         this.condition = condition;
         this.profileId = profileId;
         this.category = category;
@@ -77,12 +77,12 @@ public class Post {
         this.price = price;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+    public void setCreated_at(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public List<Image> getImages() {
