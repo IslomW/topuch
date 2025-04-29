@@ -10,8 +10,6 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface PostDocumentMapper {
 
-
-
     @Mappings({
             @Mapping(target = "price", expression = "java(post.getPrice().doubleValue())"),
             @Mapping(source = "post.category.name", target = "subcategoryName"),
