@@ -29,16 +29,17 @@ public class PostSearchController {
     }
 
 
-
+    //Is Done
     @GetMapping("/by-category")
     public ResponseEntity<List<PostDocument>> searchByCategory(
             @RequestParam String category,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
     ){
-        return ResponseEntity.ok(postSearchService.searchPostsBySubcategory(category, page, size));
+        return ResponseEntity.ok(postSearchService.searchPostsByCategory(category, page, size));
     }
 
+    //Is Done
     @GetMapping("/by-subcategory")
     public ResponseEntity<List<PostDocument>> searchBySubcategory(
             @RequestParam String subcategory,
@@ -48,6 +49,7 @@ public class PostSearchController {
         return ResponseEntity.ok(postSearchService.searchPostsBySubcategory(subcategory, page, size));
     }
 
+    //Is Done
     @GetMapping("price")
     public ResponseEntity<List<PostDocument>> searchByPriceRange(
             @RequestParam double min,
@@ -59,7 +61,7 @@ public class PostSearchController {
         return ResponseEntity.ok(postSearchService.searchPostsByPriceRange(min, max, page, size));
     }
 
-
+    // Is Done
     @GetMapping("/price/sort")
     public ResponseEntity<List<PostDocument>> sortByPrice(
             @RequestParam String keyword,
@@ -80,7 +82,7 @@ public class PostSearchController {
         return ResponseEntity.ok(postSearchService.searchWithHighlighting(keyword, page, size));
     }
 
-
+   //Is Done
     @GetMapping("/all")
     public ResponseEntity<List<PostDocument>> getAllPosts(
             @RequestParam(defaultValue = "0") int page,
@@ -94,10 +96,5 @@ public class PostSearchController {
             return ResponseEntity.ok(postSearchService.countPostsByKeyword(keyword));
     }
 
-    @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deletePost(@PathVariable String postId) {
-        postSearchService.deletePostById(postId);
-        return ResponseEntity.noContent().build();
-    }
 
 }

@@ -49,7 +49,6 @@ public class PostSearchServiceImpl implements PostSearchService {
                 .build();
 
         SearchHits<PostDocument> searchHits = elasticsearchOperations.search(query, PostDocument.class);
-        log.info(searchHits.getSearchHits().toString());
         return searchHits.getSearchHits().stream()
                 .map(SearchHit::getContent)
                 .collect(Collectors.toList());
@@ -59,15 +58,14 @@ public class PostSearchServiceImpl implements PostSearchService {
     @Override
     public List<PostDocument> searchPostsByCategory(String categoryName, int page, int size) {
         Query matchQuery = Query.of(q -> q.match(
-                m -> m.field("category")
+                m -> m.field("categoryName")
                         .query(categoryName)
         ));
         NativeQuery query = NativeQuery.builder()
                 .withQuery(matchQuery)
                 .withPageable(PageRequest.of(page, size))
                 .build();
-
-        log.info(query.toString());
+        log.warn(query.getQuery().toString());
 
         SearchHits<PostDocument> searchHits = elasticsearchOperations.search(query, PostDocument.class);
         return searchHits.getSearchHits().stream()
@@ -99,9 +97,10 @@ public class PostSearchServiceImpl implements PostSearchService {
 
     @Override
     public List<PostDocument> searchAndSortByPrice(String keyword, boolean ascending, int page, int size) {
-        Query matchQuery = Query.of(q -> q.match(
-                m -> m.field("content")
+        Query multiMatchQuery = Query.of(q -> q.multiMatch(
+                m -> m.fields("title", "description")
                         .query(keyword)
+                        .fuzziness("AUTO")
         ));
 
         SortOptions sortOptions = SortOptions.of(s -> s
@@ -112,7 +111,7 @@ public class PostSearchServiceImpl implements PostSearchService {
         );
 
         NativeQuery query = NativeQuery.builder()
-                .withQuery(matchQuery)
+                .withQuery(multiMatchQuery)
                 .withSort(sortOptions)
                 .withPageable(PageRequest.of(page, size))
                 .build();
@@ -145,17 +144,17 @@ public class PostSearchServiceImpl implements PostSearchService {
                 .collect(Collectors.toList());
     }
 
+    //Is Done
     @Override
     public long countPostsByKeyword(String keyword) {
-        Query matchQuery = Query.of(q -> q
-                .match(m -> m
-                        .field("content")
+        Query multiMatchQuery = Query.of(q -> q.multiMatch(
+                m -> m.fields("title", "description")
                         .query(keyword)
-                )
-        );
+                        .fuzziness("AUTO")
+        ));
 
         NativeQuery query = NativeQuery.builder()
-                .withQuery(matchQuery)
+                .withQuery(multiMatchQuery)
                 .build();
 
         return elasticsearchOperations.count(query, PostDocument.class);
@@ -170,7 +169,7 @@ public class PostSearchServiceImpl implements PostSearchService {
     public List<PostDocument> searchPostsBySubcategory(String subcategoryName, int page, int size) {
         Query termQuery = Query.of(q -> q
                 .term(t -> t
-                        .field("subcategory")
+                        .field("subcategoryName")
                         .value(subcategoryName)
                 )
         );
