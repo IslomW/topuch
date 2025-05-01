@@ -4,15 +4,12 @@ package com.sharipov.topuch.web.controller;
 import com.sharipov.topuch.domain.document.PostDocument;
 import com.sharipov.topuch.domain.service.PostSearchService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/api/posts/search")
 public class PostSearchController {
 
     private final PostSearchService postSearchService;
@@ -21,7 +18,8 @@ public class PostSearchController {
         this.postSearchService = postSearchService;
     }
 
-    @GetMapping
+    //Is Done
+    @GetMapping("/by-keyword")
     public ResponseEntity<List<PostDocument>> searchByKeyword(
             @RequestParam String keyword,
             @RequestParam(defaultValue = "0") int page,
@@ -32,7 +30,7 @@ public class PostSearchController {
 
 
 
-    @GetMapping("/category")
+    @GetMapping("/by-category")
     public ResponseEntity<List<PostDocument>> searchByCategory(
             @RequestParam String category,
             @RequestParam(defaultValue = "0") int page,
@@ -41,7 +39,7 @@ public class PostSearchController {
         return ResponseEntity.ok(postSearchService.searchPostsBySubcategory(category, page, size));
     }
 
-    @GetMapping("/subcategory")
+    @GetMapping("/by-subcategory")
     public ResponseEntity<List<PostDocument>> searchBySubcategory(
             @RequestParam String subcategory,
             @RequestParam(defaultValue = "0") int page,
@@ -73,5 +71,33 @@ public class PostSearchController {
     }
 
 
+    @GetMapping("/highlight")
+    public ResponseEntity<List<PostDocument>> searchWithHighlighting(
+            @RequestParam String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(postSearchService.searchWithHighlighting(keyword, page, size));
+    }
+
+
+    @GetMapping("/all")
+    public ResponseEntity<List<PostDocument>> getAllPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ){
+        return ResponseEntity.ok(postSearchService.getAllPosts(page, size));
+    }
+
+    @GetMapping("count")
+    public ResponseEntity<Long> countByKeyword(@RequestParam String keyword){
+            return ResponseEntity.ok(postSearchService.countPostsByKeyword(keyword));
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> deletePost(@PathVariable String postId) {
+        postSearchService.deletePostById(postId);
+        return ResponseEntity.noContent().build();
+    }
 
 }
