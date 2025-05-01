@@ -2,19 +2,29 @@ package com.sharipov.topuch.domain.service.impl;
 
 import co.elastic.clients.elasticsearch._types.SortOptions;
 import co.elastic.clients.elasticsearch._types.SortOrder;
+import co.elastic.clients.elasticsearch._types.query_dsl.MultiMatchQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch._types.query_dsl.QueryBuilders;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sharipov.topuch.domain.document.PostDocument;
 import com.sharipov.topuch.domain.service.PostSearchService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+@Service
 public class PostSearchServiceImpl implements PostSearchService {
+
+    private final Logger log = LoggerFactory.getLogger(PostSearchServiceImpl.class);
     private final ElasticsearchOperations elasticsearchOperations;
 
     public PostSearchServiceImpl(ElasticsearchOperations elasticsearchOperations) {
@@ -27,17 +37,19 @@ public class PostSearchServiceImpl implements PostSearchService {
     //Поиск по ключевому слову
     @Override
     public List<PostDocument> searchPostsByKeyword(String keyword, int page, int size) {
-        Query matchQuery = Query.of(q -> q.match(
-                m -> m.field("content")
+        Query multiMatchQuery = Query.of(q -> q.multiMatch(
+                m -> m.fields("title", "description")
                         .query(keyword)
+                        .fuzziness("AUTO")
         ));
 
         NativeQuery query = NativeQuery.builder()
-                .withQuery(matchQuery)
+                .withQuery(multiMatchQuery)
                 .withPageable(PageRequest.of(page, size))
                 .build();
 
         SearchHits<PostDocument> searchHits = elasticsearchOperations.search(query, PostDocument.class);
+        log.info(searchHits.getSearchHits().toString());
         return searchHits.getSearchHits().stream()
                 .map(SearchHit::getContent)
                 .collect(Collectors.toList());
@@ -54,6 +66,8 @@ public class PostSearchServiceImpl implements PostSearchService {
                 .withQuery(matchQuery)
                 .withPageable(PageRequest.of(page, size))
                 .build();
+
+        log.info(query.toString());
 
         SearchHits<PostDocument> searchHits = elasticsearchOperations.search(query, PostDocument.class);
         return searchHits.getSearchHits().stream()

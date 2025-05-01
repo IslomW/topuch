@@ -1,9 +1,12 @@
 package com.sharipov.topuch.domain.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sharipov.topuch.domain.document.PostDocument;
 import com.sharipov.topuch.domain.repository.PostDocumentRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 public interface PostSearchService {
 
