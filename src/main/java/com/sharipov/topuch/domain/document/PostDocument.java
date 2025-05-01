@@ -6,6 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Document(indexName = "posts")
@@ -21,7 +22,7 @@ public class PostDocument {
     @Field(type = FieldType.Double)
     private Double price;
     @Field(type = FieldType.Date)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
     @Field(type = FieldType.Keyword)
     private String introductionImageUrl;
     @Field(type = FieldType.Keyword)
@@ -63,11 +64,12 @@ public class PostDocument {
         this.price = price;
     }
 
-    public LocalDateTime getCreatedAt() {
+
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
