@@ -2,6 +2,9 @@ package com.sharipov.topuch.domain.service.impl;
 
 
 import com.sharipov.topuch.domain.entity.Post;
+import com.sharipov.topuch.domain.entity.Profile;
+import com.sharipov.topuch.domain.exception.ProfileNotFound;
+import com.sharipov.topuch.domain.repository.ProfileRepository;
 import com.sharipov.topuch.domain.service.PostService;
 import com.sharipov.topuch.domain.repository.PostRepository;
 import com.sharipov.topuch.domain.exception.PostNotFound;
@@ -17,28 +20,30 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     private final Logger log = LoggerFactory.getLogger(PostServiceImpl.class);
 
-    private final PostRepository repository;
+    private final PostRepository postRepository;
+    private final ProfileRepository profileRepository;
 
-    public PostServiceImpl(PostRepository repository) {
-        this.repository = repository;
+    public PostServiceImpl(PostRepository repository, ProfileRepository profileRepository) {
+        this.postRepository = repository;
+        this.profileRepository = profileRepository;
     }
 
 
     @Override
     public List<Post> getAllPosts() {
-        return repository.findAll();
+        return postRepository.findAll();
     }
 
     @Override
     public Post getPostById(Long id) {
-        Post post = repository.findById(id).orElseThrow(()-> new PostNotFound(id));
+        Post post = postRepository.findById(id).orElseThrow(()-> new PostNotFound(id));
         return post;
     }
 
     @Override
     public Post createPost(Post post) {
         post.setCreated_at(LocalDateTime.now());
-        Post result = repository.save(post);
+        Post result = postRepository.save(post);
         return result;
     }
 
@@ -50,14 +55,14 @@ public class PostServiceImpl implements PostService {
             return exist;
         }
 
-        return repository.save(post);
+        return postRepository.save(post);
     }
 
     @Override
     public void deletePostById(Long id) {
         Post exist = getPostById(id);
 
-        repository.deleteById(id);
+        postRepository.deleteById(id);
 
     }
 
@@ -65,10 +70,10 @@ public class PostServiceImpl implements PostService {
     public void deleteOldPost() {
         LocalDateTime sevenDaysAgo = LocalDateTime.now().minusDays(7);
 
-        List<Long> oldPostsIds = repository.findAllIdsByCreateAtBefore(sevenDaysAgo);
+        List<Long> oldPostsIds = postRepository.findAllIdsByCreateAtBefore(sevenDaysAgo);
         oldPostsIds.forEach(id ->  log.info("Deleting post withId: {}", id));
 
-        repository.deleteAllOlderThan(sevenDaysAgo);
+        postRepository.deleteAllOlderThan(sevenDaysAgo);
 
 
 //        List<Post> posts = getAllPosts();
@@ -87,5 +92,28 @@ public class PostServiceImpl implements PostService {
 //            }
 //        }
 
+    }
+
+    @Override
+    public void toggleLike(Long postId, Long profileId) {
+        Post post = postRepository.findById(postId).orElseThrow(()-> new PostNotFound(postId));
+        Profile profile = profileRepository.findById(profileId).orElseThrow(()-> new ProfileNotFound(profileId));
+
+        if (post.getLikedByUser().contains(profile)){
+            post.getLikedByUser().remove(profile);
+        }else {
+            post.getLikedByUser().add(profile);
+        }
+
+        postRepository.save(post);
+    }
+
+    @Override
+    public int getLikeCount(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new PostNotFound(postId)
+        );
+
+        return post.getLikedByUser().size();
     }
 }

@@ -67,4 +67,17 @@ public class PostController {
     }
 
 
+
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<Void> likeOrUnlike(@PathVariable Long postId, @RequestParam Long userId) {
+        postService.toggleLike(postId, userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{postId}/likes")
+    public ResponseEntity<Integer> getLikes(@PathVariable Long postId) {
+        int count = postService.getLikeCount(postId);
+        return ResponseEntity.ok(count);
+    }
+
 }
