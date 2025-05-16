@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -30,6 +32,15 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToMany
+    @JoinTable(
+            name = "post_likes",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "profile_id_id")
+    )
+    private Set<Profile> likedByUser = new HashSet<>();
+
 
 
     public Post() {
@@ -115,5 +126,17 @@ public class Post {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Set<Profile> getLikedByUser() {
+        return likedByUser;
+    }
+
+    public void setLikedByUser(Set<Profile> likedByUser) {
+        this.likedByUser = likedByUser;
     }
 }
