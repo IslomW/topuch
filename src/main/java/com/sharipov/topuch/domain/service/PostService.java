@@ -19,5 +19,8 @@ public interface PostService {
 
     void deleteOldPost();
 
+    void toggleLike(Long postId, Long profileId);
+    int getLikeCount(Long postId);
+
 
 }
