@@ -1,5 +1,6 @@
 package com.sharipov.topuch.domain.service.impl;
 
+import com.sharipov.topuch.common.exception.NotFoundException;
 import com.sharipov.topuch.domain.entity.Category;
 import com.sharipov.topuch.domain.exception.CategoryNotFound;
 import com.sharipov.topuch.domain.repository.CategoryRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -26,12 +28,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategoryById(Long id) {
-        return categoryRepository.findById(id).orElseThrow(()-> new CategoryNotFound(id));
+    public Category getCategoryById(UUID id) {
+        return categoryRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
     @Override
-    public List<Category> getSubcategories(Long parentId) {
+    public List<Category> getSubcategories(UUID parentId) {
         return categoryRepository.findSubcategoriesByParentId(parentId);
     }
 
@@ -41,14 +43,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category createSubcategory(Long parentId, Category category) {
+    public Category createSubcategory(UUID parentId, Category category) {
         Category parent = getCategoryById(parentId);
         category.setParentId(parent.getCategoryId());
         return categoryRepository.save(category);
     }
 
     @Override
-    public Category updateCategory(Long id, Category category) {
+    public Category updateCategory(UUID id, Category category) {
         Category exist = getCategoryById(id);
 
         if (exist.equals(category)){
@@ -61,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(Long id) {
+    public void deleteCategory(UUID id) {
         categoryRepository.deleteById(id);
     }
 }

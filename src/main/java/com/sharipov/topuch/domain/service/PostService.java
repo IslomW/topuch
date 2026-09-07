@@ -3,24 +3,25 @@ package com.sharipov.topuch.domain.service;
 import com.sharipov.topuch.domain.entity.Post;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface PostService {
 
 
     List<Post> getAllPosts();
 
-    Post getPostById(Long id);
+    Post getPostById(UUID id);
 
     Post createPost(Post post);
 
-    Post updatePost(Long postId, Post post);
+    Post updatePost(UUID postId, Post post);
 
-    void deletePostById(Long id);
+    void deletePostById(UUID id);
 
     void deleteOldPost();
 
-    void toggleLike(Long postId, Long profileId);
-    int getLikeCount(Long postId);
+    void toggleLike(UUID postId, UUID profileId);
+    int getLikeCount(UUID postId);
 
 
 }

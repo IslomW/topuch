@@ -1,11 +1,12 @@
 package com.sharipov.topuch.application.dto.response;
 
 import com.sharipov.topuch.domain.entity.Abuse;
+import java.util.UUID;
 
 public record ReportResponseDTO(
-        Long reportId,
+        UUID reportId,
         Abuse abuseType,
         String  message,
-        Long postId,
-        Long profileId) {
+        UUID postId,
+        UUID profileId) {
 }

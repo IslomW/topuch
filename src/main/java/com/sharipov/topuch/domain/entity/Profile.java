@@ -2,13 +2,16 @@ package com.sharipov.topuch.domain.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.id.uuid.UuidVersion7Strategy;
 
 @Entity
 @Table(name = "profiles")
 public class Profile {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long profileId;
+    @UuidGenerator(algorithm = UuidVersion7Strategy.class)
+    private UUID profileId;
     private String firstName;
     private String lastName;
     private LocalDateTime createdAt;
@@ -19,11 +22,11 @@ public class Profile {
     private Address address;
 
 
-    public Long getProfileId() {
+    public UUID getProfileId() {
         return profileId;
     }
 
-    public void setProfileId(Long profileId) {
+    public void setProfileId(UUID profileId) {
         this.profileId = profileId;
     }
 
@@ -91,5 +94,4 @@ public class Profile {
                 '}';
     }
 }
-
 

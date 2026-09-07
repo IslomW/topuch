@@ -4,6 +4,9 @@ package com.sharipov.topuch.domain.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.id.uuid.UuidVersion7Strategy;
 
 
 @Entity
@@ -11,8 +14,8 @@ import java.time.LocalDateTime;
 public class Image {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long imageId;
+    @UuidGenerator(algorithm = UuidVersion7Strategy.class)
+    private UUID imageId;
     private LocalDateTime createdAt;
     private String imageAddress;
 
@@ -22,11 +25,11 @@ public class Image {
     private Post post;
 
 
-    public Long getImageId() {
+    public UUID getImageId() {
         return imageId;
     }
 
-    public void setImageId(Long imageId) {
+    public void setImageId(UUID imageId) {
         this.imageId = imageId;
     }
 

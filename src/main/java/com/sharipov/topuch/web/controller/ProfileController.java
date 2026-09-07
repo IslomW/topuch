@@ -5,6 +5,7 @@ import com.sharipov.topuch.application.dto.request.ProfileRequestDTO;
 import com.sharipov.topuch.application.dto.response.ProfileResponseDTO;
 import com.sharipov.topuch.domain.entity.Profile;
 import com.sharipov.topuch.domain.service.ProfileService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -12,23 +13,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
 @RequestMapping("api/users")
+@RequiredArgsConstructor
 public class ProfileController {
 
     private final ProfileService profileService;
 
     private final ProfileMapper profileMapper;
-
-    private final Logger log = LoggerFactory.getLogger(ProfileController.class);
-
-    public ProfileController(ProfileService profileService, ProfileMapper profileMapper) {
-        this.profileService = profileService;
-        this.profileMapper = profileMapper;
-    }
-
 
         @GetMapping
     public ResponseEntity<List<ProfileResponseDTO>> getAllUsers() {
@@ -38,7 +33,7 @@ public class ProfileController {
 
 
     @GetMapping("{id}")
-    public ResponseEntity<ProfileResponseDTO> getUserById(@PathVariable Long id) {
+    public ResponseEntity<ProfileResponseDTO> getUserById(@PathVariable UUID id) {
        Profile profile = profileService.getProfileById(id);
         return ResponseEntity.ok(profileMapper.toDto(profile)) ;
     }
@@ -51,7 +46,7 @@ public class ProfileController {
 
 
     @PutMapping("{id}")
-    public ResponseEntity<ProfileResponseDTO> updateUser(@PathVariable Long id,
+    public ResponseEntity<ProfileResponseDTO> updateUser(@PathVariable UUID id,
             @RequestBody ProfileRequestDTO profile){
         Profile update =  profileService.updateProfile(id, profileMapper.toEntity(profile));
         return ResponseEntity.ok(profileMapper.toDto(update));
@@ -59,7 +54,7 @@ public class ProfileController {
 
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable Long id){
+    public ResponseEntity<Void> deleteUserById(@PathVariable UUID id){
         profileService.deleteProfileById(id);
         return ResponseEntity.noContent().build();
     }

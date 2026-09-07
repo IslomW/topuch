@@ -1,4 +1,6 @@
 package com.sharipov.topuch.application.dto;
 
-public record ImageDTO(Long imageId, String imageAddress) {
+import java.util.UUID;
+
+public record ImageDTO(UUID imageId, String imageAddress) {
 }

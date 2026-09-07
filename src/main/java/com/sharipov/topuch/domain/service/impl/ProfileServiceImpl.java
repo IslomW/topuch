@@ -1,13 +1,14 @@
 package com.sharipov.topuch.domain.service.impl;
 
 import com.sharipov.topuch.domain.entity.Profile;
-import com.sharipov.topuch.domain.exception.PostNotFound;
+import com.sharipov.topuch.domain.exception.ProfileNotFound;
 import com.sharipov.topuch.domain.repository.ProfileRepository;
 import com.sharipov.topuch.domain.service.ProfileService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
@@ -25,9 +26,9 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Profile getProfileById(Long id) {
+    public Profile getProfileById(UUID id) {
         Profile profile = profileRepository.findById(id)
-                .orElseThrow(()-> new PostNotFound(id));
+                .orElseThrow(() -> new ProfileNotFound(id));
         return profile;
     }
 
@@ -38,7 +39,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Profile updateProfile(Long id, Profile profile) {
+    public Profile updateProfile(UUID id, Profile profile) {
         Profile exist = getProfileById(id);
 
         if (exist.equals(profile)){
@@ -49,7 +50,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public void deleteProfileById(Long id) {
+    public void deleteProfileById(UUID id) {
         profileRepository.deleteById(id);
     }
 }

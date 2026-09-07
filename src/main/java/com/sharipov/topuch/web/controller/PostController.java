@@ -7,6 +7,7 @@ import com.sharipov.topuch.application.dto.request.ProfileRequestDTO;
 import com.sharipov.topuch.application.dto.response.PostResponseDTO;
 import com.sharipov.topuch.domain.entity.Post;
 import com.sharipov.topuch.domain.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.convert.PeriodUnit;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -14,20 +15,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/posts")
+@RequiredArgsConstructor
 public class PostController {
 
     private final PostService postService;
     private final PostMapper postMapper;
-
-    public PostController(PostService postService, PostMapper postMapper) {
-        this.postService = postService;
-        this.postMapper = postMapper;
-    }
-
     @GetMapping
     public ResponseEntity<List<PostResponseDTO>> getAllPosts(){
         List<Post> posts = postService.getAllPosts();
@@ -37,7 +33,7 @@ public class PostController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<PostResponseDTO> getPostById(@PathVariable Long id) {
+    public ResponseEntity<PostResponseDTO> getPostById(@PathVariable UUID id) {
         Post post = postService.getPostById(id);
         return ResponseEntity.ok(postMapper.toDto(post));
     }
@@ -51,7 +47,7 @@ public class PostController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<PostResponseDTO> updatePost(@PathVariable Long id,
+    public ResponseEntity<PostResponseDTO> updatePost(@PathVariable UUID id,
             @RequestBody PostRequestDTO postRequestDTO){
 
         Post post = postService.updatePost(id, postMapper.toEntity(postRequestDTO));
@@ -61,7 +57,7 @@ public class PostController {
 
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long id){
+    public ResponseEntity<Void> deletePost(@PathVariable UUID id){
         postService.deletePostById(id);
         return ResponseEntity.noContent().build();
     }
@@ -69,13 +65,13 @@ public class PostController {
 
 
     @PostMapping("/{postId}/like")
-    public ResponseEntity<Void> likeOrUnlike(@PathVariable Long postId, @RequestParam Long userId) {
+    public ResponseEntity<Void> likeOrUnlike(@PathVariable UUID postId, @RequestParam UUID userId) {
         postService.toggleLike(postId, userId);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{postId}/likes")
-    public ResponseEntity<Integer> getLikes(@PathVariable Long postId) {
+    public ResponseEntity<Integer> getLikes(@PathVariable UUID postId) {
         int count = postService.getLikeCount(postId);
         return ResponseEntity.ok(count);
     }

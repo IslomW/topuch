@@ -7,14 +7,17 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.id.uuid.UuidVersion7Strategy;
 
 
 @Entity
 @Table(name = "posts")
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long postId;
+    @UuidGenerator(algorithm = UuidVersion7Strategy.class)
+    private UUID postId;
     private String title;
     private String description;
     private BigDecimal price;
@@ -27,7 +30,7 @@ public class Post {
     private Condition condition;
 
     @JoinColumn(name = "profile_id")
-    private Long profileId;
+    private UUID profileId;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -37,7 +40,7 @@ public class Post {
     @JoinTable(
             name = "post_likes",
             joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "profile_id_id")
+            inverseJoinColumns = @JoinColumn(name = "profile_id")
     )
     private Set<Profile> likedByUser = new HashSet<>();
 
@@ -46,7 +49,7 @@ public class Post {
     public Post() {
     }
 
-    public Post(String title, String description, BigDecimal price, LocalDateTime createdAt, Condition condition, Long profileId, Category category) {
+    public Post(String title, String description, BigDecimal price, LocalDateTime createdAt, Condition condition, UUID profileId, Category category) {
         this.title = title;
         this.description = description;
         this.price = price;
@@ -56,11 +59,11 @@ public class Post {
         this.category = category;
     }
 
-    public Long getPostId() {
+    public UUID getPostId() {
         return postId;
     }
 
-    public void setPostId(Long postId) {
+    public void setPostId(UUID postId) {
         this.postId = postId;
     }
 
@@ -112,11 +115,11 @@ public class Post {
         this.condition = condition;
     }
 
-    public Long getProfileId() {
+    public UUID getProfileId() {
         return profileId;
     }
 
-    public void setProfileId(Long profileId) {
+    public void setProfileId(UUID profileId) {
         this.profileId = profileId;
     }
 

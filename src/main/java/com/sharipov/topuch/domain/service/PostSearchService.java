@@ -1,39 +1,38 @@
 package com.sharipov.topuch.domain.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sharipov.topuch.domain.document.PostDocument;
-import com.sharipov.topuch.domain.repository.PostDocumentRepository;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public interface PostSearchService {
 
     // Поиск по ключевым словам в нескольких полях
-    List<PostDocument> searchPostsByKeyword(String keyword, int page, int size);
+    List<PostDocument> searchPostsByKeyword(String keyword, Pageable pageable);
 
     // Поиск по категории
-    List<PostDocument> searchPostsByCategory(String categoryName, int page, int size);
+    List<PostDocument> searchPostsByCategory(String categoryName, Pageable pageable);
 
     // Поиск по цене
-    List<PostDocument> searchPostsByPriceRange(double minPrice, double maxPrice, int page, int size);
+    List<PostDocument> searchPostsByPriceRange(double minPrice, double maxPrice, Pageable pageable);
 
     // Сортировка по цене (по возрастанию или убыванию)
-    List<PostDocument> searchAndSortByPrice(String keyword, boolean ascending, int page, int size);
+    List<PostDocument> searchAndSortByPrice(String keyword, boolean ascending, Pageable pageable);
 
     // Поиск с подсветкой
-    List<PostDocument> searchWithHighlighting(String keyword, int page, int size);
+    List<PostDocument> searchWithHighlighting(String keyword, Pageable pageable);
 
     // Получение всех товаров (для административных нужд)
-    List<PostDocument> getAllPosts(int page, int size);
+    List<PostDocument> getAllPosts(Pageable pageable);
 
     // Метод для подсчета общего количества товаров по ключевому запросу
     long countPostsByKeyword(String keyword);
 
     // Метод для удаления поста по ID (если нужно в сервисе)
-    void deletePostById(String postId);
+    void deletePostById(UUID postId);
 
     // Метод для поиска по подкатегории
-    List<PostDocument> searchPostsBySubcategory(String subcategoryName, int page, int size);
+    List<PostDocument> searchPostsBySubcategory(String subcategoryName, Pageable pageable);
 }

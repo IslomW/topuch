@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - includeAll:
+      path: db/changelog/releases
+      minDepth: 2
+      maxDepth: 2

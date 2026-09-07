@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -32,7 +33,7 @@ public class CategoryController {
 
 
     @GetMapping("{parentId}/subcategories")
-    public ResponseEntity<List<CategoryDTO>> getAllSubCategories(@PathVariable Long parentId) {
+    public ResponseEntity<List<CategoryDTO>> getAllSubCategories(@PathVariable UUID parentId) {
         List<CategoryDTO> result = categoryMapper.toListDto(categoryService.getSubcategories(parentId));
 
         return ResponseEntity.ok(result);
@@ -49,7 +50,7 @@ public class CategoryController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id,
+    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable UUID id,
                                                       @RequestBody CategoryDTO categoryDTO) {
         CategoryDTO result = categoryMapper.toDto(
                 categoryService.updateCategory(id, categoryMapper.toEntity(categoryDTO))
@@ -60,7 +61,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCategory(@PathVariable UUID id) {
         categoryService.deleteCategory(id);
 
         return ResponseEntity.noContent().build();

@@ -8,12 +8,13 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Document(indexName = "posts")
 public class PostDocument {
 
     @Id
-    private String postId;
+    private UUID postId;
 
     @Field(type = FieldType.Text)
     private String title;
@@ -32,11 +33,11 @@ public class PostDocument {
     @Field(type = FieldType.Keyword)
     private String subcategoryName;
 
-    public String getPostId() {
+    public UUID getPostId() {
         return postId;
     }
 
-    public void setPostId(String postId) {
+    public void setPostId(UUID postId) {
         this.postId = postId;
     }
 

@@ -3,6 +3,7 @@ package com.sharipov.topuch.domain.service;
 import com.sharipov.topuch.domain.entity.Report;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ReportService {
 
@@ -10,7 +11,7 @@ public interface ReportService {
 
     Report createReport(Report report);
 
-    void deleteReportById(Long id);
+    void deleteReportById(UUID id);
 
 
 

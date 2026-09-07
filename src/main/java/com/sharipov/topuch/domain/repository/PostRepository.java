@@ -10,12 +10,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, UUID> {
 
     @Query("select p.postId from Post p where p.createdAt < :date")
-    List<Long> findAllIdsByCreateAtBefore(@Param("date")LocalDateTime date);
+    List<UUID> findAllIdsByCreateAtBefore(@Param("date")LocalDateTime date);
 
 
     @Modifying

@@ -3,6 +3,9 @@ package com.sharipov.topuch.web.controller;
 
 import com.sharipov.topuch.domain.document.PostDocument;
 import com.sharipov.topuch.domain.service.PostSearchService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +25,9 @@ public class PostSearchController {
     @GetMapping("/by-keyword")
     public ResponseEntity<List<PostDocument>> searchByKeyword(
             @RequestParam String keyword,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
-        return ResponseEntity.ok(postSearchService.searchPostsByKeyword(keyword, page,size));
+        return ResponseEntity.ok(postSearchService.searchPostsByKeyword(keyword, pageable));
     }
 
 
@@ -33,20 +35,18 @@ public class PostSearchController {
     @GetMapping("/by-category")
     public ResponseEntity<List<PostDocument>> searchByCategory(
             @RequestParam String category,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
-        return ResponseEntity.ok(postSearchService.searchPostsByCategory(category, page, size));
+        return ResponseEntity.ok(postSearchService.searchPostsByCategory(category, pageable));
     }
 
     //Is Done
     @GetMapping("/by-subcategory")
     public ResponseEntity<List<PostDocument>> searchBySubcategory(
             @RequestParam String subcategory,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
             ){
-        return ResponseEntity.ok(postSearchService.searchPostsBySubcategory(subcategory, page, size));
+        return ResponseEntity.ok(postSearchService.searchPostsBySubcategory(subcategory, pageable));
     }
 
     //Is Done
@@ -54,11 +54,10 @@ public class PostSearchController {
     public ResponseEntity<List<PostDocument>> searchByPriceRange(
             @RequestParam double min,
             @RequestParam double max,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
 
     ){
-        return ResponseEntity.ok(postSearchService.searchPostsByPriceRange(min, max, page, size));
+        return ResponseEntity.ok(postSearchService.searchPostsByPriceRange(min, max, pageable));
     }
 
     // Is Done
@@ -66,29 +65,26 @@ public class PostSearchController {
     public ResponseEntity<List<PostDocument>> sortByPrice(
             @RequestParam String keyword,
             @RequestParam boolean ascending,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
-        return ResponseEntity.ok(postSearchService.searchAndSortByPrice(keyword, ascending, page, size));
+        return ResponseEntity.ok(postSearchService.searchAndSortByPrice(keyword, ascending, pageable));
     }
 
 
     @GetMapping("/highlight")
     public ResponseEntity<List<PostDocument>> searchWithHighlighting(
             @RequestParam String keyword,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        return ResponseEntity.ok(postSearchService.searchWithHighlighting(keyword, page, size));
+        return ResponseEntity.ok(postSearchService.searchWithHighlighting(keyword, pageable));
     }
 
    //Is Done
     @GetMapping("/all")
     public ResponseEntity<List<PostDocument>> getAllPosts(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable
     ){
-        return ResponseEntity.ok(postSearchService.getAllPosts(page, size));
+        return ResponseEntity.ok(postSearchService.getAllPosts(pageable));
     }
 
     @GetMapping("count")

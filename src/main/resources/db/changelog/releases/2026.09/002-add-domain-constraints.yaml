@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2026.09-002-add-domain-constraints
+      author: topuch
+      dbms: postgresql
+      runInTransaction: true
+      comment: Protect price and enum values at the database boundary.
+      changes:
+        - sql:
+            sql: |
+              ALTER TABLE posts ADD CONSTRAINT chk_posts_price_non_negative
+                  CHECK (price IS NULL OR price >= 0);
+              ALTER TABLE posts ADD CONSTRAINT chk_posts_condition
+                  CHECK (condition IS NULL OR condition IN ('NEW', 'GOOD', 'ACCEPTABLE'));
+              ALTER TABLE reports ADD CONSTRAINT chk_reports_abuse_type
+                  CHECK (abuse_type IS NULL OR abuse_type IN ('CLICKBAIT', 'SCAM', 'SPAM'));
+      rollback:
+        - sql:
+            sql: |
+              ALTER TABLE reports DROP CONSTRAINT IF EXISTS chk_reports_abuse_type;
+              ALTER TABLE posts DROP CONSTRAINT IF EXISTS chk_posts_condition;
+              ALTER TABLE posts DROP CONSTRAINT IF EXISTS chk_posts_price_non_negative;

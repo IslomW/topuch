@@ -6,12 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+public interface CategoryRepository extends JpaRepository<Category, UUID> {
 
     @Query("select c from Category c where c.parentId is null")
     List<Category> findParentCategories();
 
     @Query("select c from Category c where c.parentId = :parentId")
-    List<Category> findSubcategoriesByParentId(@Param("parentId") Long parentId);
+    List<Category> findSubcategoriesByParentId(@Param("parentId") UUID parentId);
 }

@@ -1,19 +1,23 @@
 package com.sharipov.topuch.domain.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.id.uuid.UuidVersion7Strategy;
+
+import java.util.UUID;
 
 @Entity
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long categoryId;
+    @UuidGenerator(algorithm = UuidVersion7Strategy.class)
+    private UUID categoryId;
     private String name;
 
-    private Long parentId;
+    private UUID parentId;
 
 
-    public Category(Long categoryId, String name, Long parentId) {
+    public Category(UUID categoryId, String name, UUID parentId) {
         this.categoryId = categoryId;
         this.name = name;
         this.parentId = parentId;
@@ -27,11 +31,11 @@ public class Category {
 
     }
 
-    public Long getCategoryId() {
+    public UUID getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Long categoryId) {
+    public void setCategoryId(UUID categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -43,11 +47,11 @@ public class Category {
         this.name = name;
     }
 
-    public Long getParentId() {
+    public UUID getParentId() {
         return parentId;
     }
 
-    public void setParentId(Long parentId) {
+    public void setParentId(UUID parentId) {
         this.parentId = parentId;
     }
 }

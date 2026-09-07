@@ -1,15 +1,17 @@
 package com.sharipov.topuch.domain.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.id.uuid.UuidVersion7Strategy;
+
+import java.util.UUID;
 
 @Entity
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long addressId;
+    @UuidGenerator(algorithm = UuidVersion7Strategy.class)
+    private UUID addressId;
     private String countryCode;
     private String state;
     private String city;
@@ -18,11 +20,11 @@ public class Address {
     private String zipCode;
 
 
-    public Long getAddressId() {
+    public UUID getAddressId() {
         return addressId;
     }
 
-    public void setAddressId(Long addressId) {
+    public void setAddressId(UUID addressId) {
         this.addressId = addressId;
 
     }

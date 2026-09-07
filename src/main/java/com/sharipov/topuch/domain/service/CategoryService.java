@@ -3,22 +3,23 @@ package com.sharipov.topuch.domain.service;
 import com.sharipov.topuch.domain.entity.Category;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface CategoryService {
 
     List<Category> getAllCategories();
 
-    Category getCategoryById(Long id);
+    Category getCategoryById(UUID id);
 
-    List<Category> getSubcategories(Long parentId);
+    List<Category> getSubcategories(UUID parentId);
 
     Category createCategory(Category category);
 
-    Category createSubcategory(Long parentId, Category category);
+    Category createSubcategory(UUID parentId, Category category);
 
-    Category updateCategory(Long id, Category category);
+    Category updateCategory(UUID id, Category category);
 
-    void deleteCategory(Long id);
+    void deleteCategory(UUID id);
 
 
 }

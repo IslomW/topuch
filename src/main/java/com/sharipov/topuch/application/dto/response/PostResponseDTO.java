@@ -6,9 +6,10 @@ import com.sharipov.topuch.domain.entity.Condition;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 public record PostResponseDTO(
-                      Long profileId,
+                      UUID profileId,
                       String title,
                       String description,
                       BigDecimal price,
