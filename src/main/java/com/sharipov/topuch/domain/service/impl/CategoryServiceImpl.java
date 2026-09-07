@@ -2,10 +2,9 @@ package com.sharipov.topuch.domain.service.impl;
 
 import com.sharipov.topuch.common.exception.NotFoundException;
 import com.sharipov.topuch.domain.entity.Category;
-import com.sharipov.topuch.domain.exception.CategoryNotFound;
 import com.sharipov.topuch.domain.repository.CategoryRepository;
 import com.sharipov.topuch.domain.service.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,14 +12,11 @@ import java.util.UUID;
 
 
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
 
     private final CategoryRepository categoryRepository;
-
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     @Override
     public List<Category> getAllCategories() {
@@ -29,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category getCategoryById(UUID id) {
-        return categoryRepository.findById(id).orElseThrow(NotFoundException::new);
+        return categoryRepository.findById(id).orElseThrow(NotFoundException::categoryNotFound);
     }
 
     @Override

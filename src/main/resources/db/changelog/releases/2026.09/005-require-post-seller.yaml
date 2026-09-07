@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2026.09-005-require-post-seller
+      author: topuch
+      dbms: postgresql
+      runInTransaction: true
+      comment: Require every post to reference an existing seller profile.
+      preConditions:
+        - onFail: HALT
+        - sqlCheck:
+            expectedResult: 0
+            sql: SELECT COUNT(*) FROM posts WHERE profile_id IS NULL
+      changes:
+        - addNotNullConstraint:
+            tableName: posts
+            columnName: profile_id
+            columnDataType: uuid
+      rollback:
+        - dropNotNullConstraint:
+            tableName: posts
+            columnName: profile_id
+            columnDataType: uuid

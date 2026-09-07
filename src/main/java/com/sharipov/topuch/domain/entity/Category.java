@@ -1,12 +1,16 @@
 package com.sharipov.topuch.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.id.uuid.UuidVersion7Strategy;
 
 import java.util.UUID;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Category {
 
     @Id
@@ -15,21 +19,6 @@ public class Category {
     private String name;
 
     private UUID parentId;
-
-
-    public Category(UUID categoryId, String name, UUID parentId) {
-        this.categoryId = categoryId;
-        this.name = name;
-        this.parentId = parentId;
-    }
-
-    public Category(String name) {
-        this.name = name;
-    }
-
-    public Category() {
-
-    }
 
     public UUID getCategoryId() {
         return categoryId;

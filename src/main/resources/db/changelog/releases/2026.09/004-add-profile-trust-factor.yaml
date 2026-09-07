@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2026.09-004-add-profile-trust-factor
+      author: topuch
+      dbms: postgresql
+      runInTransaction: true
+      comment: Add a server-managed seller trust factor from 0 to 10.
+      changes:
+        - addColumn:
+            tableName: profiles
+            columns:
+              - column:
+                  name: trust_factor
+                  type: smallint
+                  defaultValueNumeric: 5
+                  constraints:
+                    nullable: false
+        - sql:
+            sql: |
+              ALTER TABLE profiles
+                  ADD CONSTRAINT chk_profiles_trust_factor
+                  CHECK (trust_factor BETWEEN 0 AND 10);
+      rollback:
+        - sql:
+            sql: |
+              ALTER TABLE profiles DROP CONSTRAINT IF EXISTS chk_profiles_trust_factor;
+              ALTER TABLE profiles DROP COLUMN IF EXISTS trust_factor;

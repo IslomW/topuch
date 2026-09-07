@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2026.09-006-convert-created-at-to-instant
+      author: topuch
+      dbms: postgresql
+      runInTransaction: true
+      comment: Store creation timestamps as non-null UTC instants.
+      changes:
+        - sql:
+            sql: |
+              UPDATE profiles SET created_at = CURRENT_TIMESTAMP AT TIME ZONE 'UTC' WHERE created_at IS NULL;
+              UPDATE posts SET created_at = CURRENT_TIMESTAMP AT TIME ZONE 'UTC' WHERE created_at IS NULL;
+              UPDATE images SET created_at = CURRENT_TIMESTAMP AT TIME ZONE 'UTC' WHERE created_at IS NULL;
+
+              ALTER TABLE profiles
+                  ALTER COLUMN created_at TYPE TIMESTAMP(6) WITH TIME ZONE
+                  USING created_at AT TIME ZONE 'UTC',
+                  ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP,
+                  ALTER COLUMN created_at SET NOT NULL;
+              ALTER TABLE posts
+                  ALTER COLUMN created_at TYPE TIMESTAMP(6) WITH TIME ZONE
+                  USING created_at AT TIME ZONE 'UTC',
+                  ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP,
+                  ALTER COLUMN created_at SET NOT NULL;
+              ALTER TABLE images
+                  ALTER COLUMN created_at TYPE TIMESTAMP(6) WITH TIME ZONE
+                  USING created_at AT TIME ZONE 'UTC',
+                  ALTER COLUMN created_at SET DEFAULT CURRENT_TIMESTAMP,
+                  ALTER COLUMN created_at SET NOT NULL;
+      rollback:
+        - sql:
+            sql: |
+              ALTER TABLE images
+                  ALTER COLUMN created_at DROP NOT NULL,
+                  ALTER COLUMN created_at DROP DEFAULT,
+                  ALTER COLUMN created_at TYPE TIMESTAMP(6) WITHOUT TIME ZONE
+                  USING created_at AT TIME ZONE 'UTC';
+              ALTER TABLE posts
+                  ALTER COLUMN created_at DROP NOT NULL,
+                  ALTER COLUMN created_at DROP DEFAULT,
+                  ALTER COLUMN created_at TYPE TIMESTAMP(6) WITHOUT TIME ZONE
+                  USING created_at AT TIME ZONE 'UTC';
+              ALTER TABLE profiles
+                  ALTER COLUMN created_at DROP NOT NULL,
+                  ALTER COLUMN created_at DROP DEFAULT,
+                  ALTER COLUMN created_at TYPE TIMESTAMP(6) WITHOUT TIME ZONE
+                  USING created_at AT TIME ZONE 'UTC';

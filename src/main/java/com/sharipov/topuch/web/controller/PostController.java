@@ -3,14 +3,11 @@ package com.sharipov.topuch.web.controller;
 
 import com.sharipov.topuch.application.converter.PostMapper;
 import com.sharipov.topuch.application.dto.request.PostRequestDTO;
-import com.sharipov.topuch.application.dto.request.ProfileRequestDTO;
 import com.sharipov.topuch.application.dto.response.PostResponseDTO;
 import com.sharipov.topuch.domain.entity.Post;
 import com.sharipov.topuch.domain.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.convert.PeriodUnit;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +38,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<PostResponseDTO> createPost(@RequestBody PostRequestDTO requestDTO){
         Post post = postMapper.toEntity(requestDTO);
-        Post savedPost = postService.createPost(post);
+        Post savedPost = postService.createPost(post, requestDTO.profileId());
         return ResponseEntity.status(HttpStatus.CREATED).body(postMapper.toDto(savedPost));
 
     }

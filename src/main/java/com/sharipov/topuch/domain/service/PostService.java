@@ -12,7 +12,7 @@ public interface PostService {
 
     Post getPostById(UUID id);
 
-    Post createPost(Post post);
+    Post createPost(Post post, UUID profileId);
 
     Post updatePost(UUID postId, Post post);
 

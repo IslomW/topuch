@@ -1,23 +1,21 @@
 package com.sharipov.topuch.domain.service.impl;
 
+import com.sharipov.topuch.common.exception.NotFoundException;
 import com.sharipov.topuch.domain.entity.Profile;
-import com.sharipov.topuch.domain.exception.ProfileNotFound;
 import com.sharipov.topuch.domain.repository.ProfileRepository;
 import com.sharipov.topuch.domain.service.ProfileService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ProfileServiceImpl implements ProfileService {
 
     private final ProfileRepository profileRepository;
-
-    public ProfileServiceImpl(ProfileRepository profileRepository) {
-        this.profileRepository = profileRepository;
-    }
 
     @Override
     public List<Profile> getAllProfile() {
@@ -28,25 +26,27 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Profile getProfileById(UUID id) {
         Profile profile = profileRepository.findById(id)
-                .orElseThrow(() -> new ProfileNotFound(id));
+                .orElseThrow(NotFoundException::profileNotFound);
         return profile;
     }
 
     @Override
     public Profile createProfile(Profile profile) {
-        profile.setCreatedAt(LocalDateTime.now());
+        profile.setCreatedAt(Instant.now());
+        profile.setTrustFactor(Profile.DEFAULT_TRUST_FACTOR);
         return profileRepository.save(profile);
     }
 
     @Override
     public Profile updateProfile(UUID id, Profile profile) {
-        Profile exist = getProfileById(id);
+        Profile existing = getProfileById(id);
+        existing.setFirstName(profile.getFirstName());
+        existing.setLastName(profile.getLastName());
+        existing.setPhoneNumber(profile.getPhoneNumber());
+        existing.setEmail(profile.getEmail());
+        existing.setAddress(profile.getAddress());
 
-        if (exist.equals(profile)){
-            return exist;
-        }
-
-        return profileRepository.save(profile);
+        return profileRepository.save(existing);
     }
 
     @Override

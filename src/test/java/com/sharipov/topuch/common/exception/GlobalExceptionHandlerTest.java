@@ -1,7 +1,6 @@
 package com.sharipov.topuch.common.exception;
 
 import com.sharipov.topuch.common.response.ErrorResponse;
-import com.sharipov.topuch.domain.exception.PostNotFound;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +20,14 @@ class GlobalExceptionHandlerTest {
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/posts/" + postId);
 
         ResponseEntity<ErrorResponse> response = handler.handleApiException(
-                new PostNotFound(postId),
+                NotFoundException.postNotFound(),
                 request
         );
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().status()).isEqualTo(404);
-        assertThat(response.getBody().code()).isEqualTo("POST_NOT_FOUND");
+        assertThat(response.getBody().code()).isEqualTo("DATA_NOT_FOUND");
         assertThat(response.getBody().path()).isEqualTo("/api/posts/" + postId);
         assertThat(response.getBody().errors()).isEmpty();
         assertThat(response.getBody().timestamp()).isNotNull();

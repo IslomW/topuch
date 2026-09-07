@@ -5,8 +5,8 @@ import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 import com.sharipov.topuch.domain.document.PostDocument;
 import com.sharipov.topuch.domain.service.PostSearchService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
@@ -21,14 +21,11 @@ import java.util.stream.Collectors;
 
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class PostSearchServiceImpl implements PostSearchService {
 
-    private final Logger log = LoggerFactory.getLogger(PostSearchServiceImpl.class);
     private final ElasticsearchOperations elasticsearchOperations;
-
-    public PostSearchServiceImpl(ElasticsearchOperations elasticsearchOperations) {
-        this.elasticsearchOperations = elasticsearchOperations;
-    }
 
 //    private static final String INDEX = "posts";
 

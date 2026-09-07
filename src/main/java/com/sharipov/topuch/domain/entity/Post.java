@@ -1,27 +1,39 @@
 package com.sharipov.topuch.domain.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.id.uuid.UuidVersion7Strategy;
 
 
 @Entity
 @Table(name = "posts")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Post {
+
     @Id
     @UuidGenerator(algorithm = UuidVersion7Strategy.class)
     private UUID postId;
+
     private String title;
+
     private String description;
+
     private BigDecimal price;
-    private LocalDateTime createdAt;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Image> images;
@@ -29,8 +41,9 @@ public class Post {
     @Enumerated(EnumType.STRING)
     private Condition condition;
 
-    @JoinColumn(name = "profile_id")
-    private UUID profileId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "profile_id", nullable = false)
+    private Profile seller;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -43,21 +56,6 @@ public class Post {
             inverseJoinColumns = @JoinColumn(name = "profile_id")
     )
     private Set<Profile> likedByUser = new HashSet<>();
-
-
-
-    public Post() {
-    }
-
-    public Post(String title, String description, BigDecimal price, LocalDateTime createdAt, Condition condition, UUID profileId, Category category) {
-        this.title = title;
-        this.description = description;
-        this.price = price;
-        this.createdAt = createdAt;
-        this.condition = condition;
-        this.profileId = profileId;
-        this.category = category;
-    }
 
     public UUID getPostId() {
         return postId;
@@ -91,12 +89,8 @@ public class Post {
         this.price = price;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreated_at(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     public List<Image> getImages() {
@@ -115,12 +109,12 @@ public class Post {
         this.condition = condition;
     }
 
-    public UUID getProfileId() {
-        return profileId;
+    public Profile getSeller() {
+        return seller;
     }
 
-    public void setProfileId(UUID profileId) {
-        this.profileId = profileId;
+    public void setSeller(Profile seller) {
+        this.seller = seller;
     }
 
     public Category getCategory() {
@@ -131,7 +125,7 @@ public class Post {
         this.category = category;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 

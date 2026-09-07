@@ -80,10 +80,10 @@ HTTP request
 ### PostgreSQL/JPA
 
 - Все primary key (`Profile`, `Address`, `Post`, `Image`, `Category`, `Report`) имеют тип `java.util.UUID` и генерируются как UUIDv7 через встроенную стратегию Hibernate `UuidVersion7Strategy` (RFC 9562).
-- Связанные скалярные идентификаторы `Post.profileId` и `Category.parentId`, а также ID в DTO/API, также имеют тип `UUID`.
-- `Profile`: пользователь; имеет `Address` через `@OneToOne`.
+- `Post.seller` является обязательной JPA-связью `@ManyToOne` с `Profile`; `Category.parentId` пока остаётся скалярным UUID.
+- `Profile`: пользователь; имеет `Address` через `@OneToOne` и серверный `trustFactor` от 0 до 10 для отображения доверия к продавцу. Новый профиль начинает с нейтрального значения 5, клиент не может менять рейтинг через `ProfileRequestDTO`.
 - `Address`: адрес пользователя.
-- `Post`: объявление; содержит title, description, price, createdAt, condition, `profileId`, категорию, изображения и лайки.
+- `Post`: объявление; содержит title, description, price, createdAt, condition, обязательного продавца `seller`, категорию, изображения и лайки. API и Elasticsearch возвращают ID продавца и его `trustFactor`.
 - `Image`: изображение объявления; `@ManyToOne` к `Post`.
 - `Category`: категория или подкатегория; иерархия задана простым полем `parentId`, а не JPA-связью.
 - `Report`: жалоба на объявление от профиля; модель существует, но рабочий сервис/repository/controller отсутствуют.
@@ -175,8 +175,7 @@ Liquibase запускает миграции автоматически пер�
 
 1. Пароль PostgreSQL вынесен в обязательную переменную `DB_PASSWORD`; старый ранее закоммиченный пароль нужно сменить, если он где-либо реально использовался.
 2. `StorageService.java` ранее имел неверный package и отсутствующий import; это исправлено при переходе на Java 26.
-3. Методы обновления `PostServiceImpl.updatePost` и `ProfileServiceImpl.updateProfile` сохраняют новый объект без установки ID и без переноса неизменяемых связей. Вместо UPDATE может произойти INSERT.
-4. Для существующих таблиц с `BIGINT` ID ещё не создана миграция на PostgreSQL `uuid`.
+3. Для существующих таблиц с `BIGINT` ID ещё не создана миграция на PostgreSQL `uuid`.
 
 ### Функциональные пробелы
 
@@ -189,18 +188,16 @@ Liquibase запускает миграции автоматически пер�
 
 ### Модель данных и API
 
-1. `Post.profileId` — обычный `UUID` с `@JoinColumn`, а не связь `@ManyToOne`; аннотация `@JoinColumn` здесь не создаёт объектную связь.
+1. `Post.seller` — обязательная LAZY-связь `@ManyToOne`; миграция останавливается, если в старой базе есть объявления без продавца.
 2. Колонка таблицы лайков стандартизирована как `profile_id` в entity и initial migration.
 3. Двусторонняя связь `Post.images`/`Image.post` не настраивается в сервисе при создании объявления.
-4. DTO создания `PostRequestDTO` не содержит `profileId` и category, хотя сущность их предполагает.
-5. `PostResponseDTO` не содержит `postId`, что затрудняет работу клиента.
+4. DTO создания `PostRequestDTO` содержит `profileId`, но пока не содержит category.
+5. `PostResponseDTO` содержит `postId` и краткую информацию о продавце с `trustFactor`.
 6. `CategoryDTO` содержит только `name`: ID и `parentId` теряются в ответах и обновлениях.
 7. `Report` не содержит getters/setters, что осложнит JPA/маппинг/API.
 8. `Report.postId` и `Report.profileId` названы как ID, но имеют типы `Post` и `Profile`.
 9. `Report.postId` задан как `@OneToOne`; обычно одно объявление может иметь несколько жалоб, поэтому вероятнее нужна связь `@ManyToOne`.
-10. `PostDocument.createdAt` имеет тип `LocalDate`, а JPA-модель `Post.createdAt` — `LocalDateTime`.
-11. `equals/hashCode` у сущностей не переопределены; проверки `exist.equals(incoming)` фактически сравнивают ссылки.
-12. Для `page`, `size`, диапазона цен и остальных входов нет валидации.
+10. Для `page`, `size`, диапазона цен и остальных входов нет валидации.
 
 ### Качество и сопровождение
 
@@ -214,8 +211,8 @@ Liquibase запускает миграции автоматически пер�
 
 1. Поддерживать сборку на JDK 26 и совместимые версии Spring Boot/Lombok/MapStruct.
 2. Сменить ранее закоммиченный пароль PostgreSQL и добавить изолированный `application-test.yml`.
-3. Исправить update-логику, исключения и глобальный exception handler.
-4. Уточнить доменную модель (`Post` -> `Profile`, категории, reports, IDs в DTO) и сопровождать изменения новыми Liquibase changesets.
+3. Продолжать улучшать исключения и global exception handler.
+4. Уточнить оставшуюся доменную модель (категории и reports) и сопровождать изменения новыми Liquibase changesets.
 5. Добавить Bean Validation и единый формат ошибок.
 6. Покрыть unit/controller/integration-тестами основные CRUD и likes.
 7. Реализовать надёжную синхронизацию PostgreSQL -> Elasticsearch и highlighting.

@@ -6,8 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.UUID;
 
 @Document(indexName = "posts")
@@ -23,7 +22,7 @@ public class PostDocument {
     @Field(type = FieldType.Double)
     private Double price;
     @Field(type = FieldType.Date)
-    private LocalDate createdAt;
+    private Instant createdAt;
     @Field(type = FieldType.Keyword)
     private String introductionImageUrl;
     @Field(type = FieldType.Keyword)
@@ -32,6 +31,10 @@ public class PostDocument {
     private String categoryName;
     @Field(type = FieldType.Keyword)
     private String subcategoryName;
+    @Field(type = FieldType.Keyword)
+    private UUID sellerId;
+    @Field(type = FieldType.Integer)
+    private Integer sellerTrustFactor;
 
     public UUID getPostId() {
         return postId;
@@ -66,11 +69,11 @@ public class PostDocument {
     }
 
 
-    public LocalDate getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -106,6 +109,22 @@ public class PostDocument {
         this.subcategoryName = subcategoryName;
     }
 
+    public UUID getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(UUID sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public Integer getSellerTrustFactor() {
+        return sellerTrustFactor;
+    }
+
+    public void setSellerTrustFactor(Integer sellerTrustFactor) {
+        this.sellerTrustFactor = sellerTrustFactor;
+    }
+
     @Override
     public String toString() {
         return "PostDocument{" +
@@ -118,6 +137,8 @@ public class PostDocument {
                 ", condition='" + condition + '\'' +
                 ", categoryName='" + categoryName + '\'' +
                 ", subcategoryName='" + subcategoryName + '\'' +
+                ", sellerId=" + sellerId +
+                ", sellerTrustFactor=" + sellerTrustFactor +
                 '}';
     }
 }

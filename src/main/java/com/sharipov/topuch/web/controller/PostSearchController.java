@@ -3,6 +3,7 @@ package com.sharipov.topuch.web.controller;
 
 import com.sharipov.topuch.domain.document.PostDocument;
 import com.sharipov.topuch.domain.service.PostSearchService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -13,13 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts/search")
+@RequiredArgsConstructor
 public class PostSearchController {
 
     private final PostSearchService postSearchService;
-
-    public PostSearchController(PostSearchService postSearchService) {
-        this.postSearchService = postSearchService;
-    }
 
     //Is Done
     @GetMapping("/by-keyword")

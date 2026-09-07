@@ -28,6 +28,7 @@ public final class MessageKey {
     public static final String ORDER_STATUS_INVALID_TRANSITION = "order.status.invalid.transition";
     public static final String ORDER_DELETE_NOT_ALLOWED = "order.delete.not.allowed";
     public static final String CATEGORY_NOT_FOUND = "category.not.found";
+    public static final String POST_NOT_FOUND = "post.not.found";
 
 
     public static final String VERIFICATION_CODE_INVALID = "invalid.verification.code";

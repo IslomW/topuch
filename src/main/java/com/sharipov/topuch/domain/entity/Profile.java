@@ -1,22 +1,40 @@
 package com.sharipov.topuch.domain.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import java.time.Instant;
 import java.util.UUID;
 import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.id.uuid.UuidVersion7Strategy;
 
 @Entity
 @Table(name = "profiles")
 public class Profile {
+    public static final int DEFAULT_TRUST_FACTOR = 5;
+
     @Id
     @UuidGenerator(algorithm = UuidVersion7Strategy.class)
     private UUID profileId;
+
     private String firstName;
+
     private String lastName;
-    private LocalDateTime createdAt;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
+
     private Long phoneNumber;
+
     private String email;
+
+    @Min(0)
+    @Max(10)
+    @Column(name = "trust_factor", nullable = false)
+    private int trustFactor = DEFAULT_TRUST_FACTOR;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
@@ -32,11 +50,11 @@ public class Profile {
 
 
 
-    public LocalDateTime getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -54,6 +72,17 @@ public class Profile {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getTrustFactor() {
+        return trustFactor;
+    }
+
+    public void setTrustFactor(int trustFactor) {
+        if (trustFactor < 0 || trustFactor > 10) {
+            throw new IllegalArgumentException("Trust factor must be between 0 and 10");
+        }
+        this.trustFactor = trustFactor;
     }
 
     public Address getAddress() {
@@ -90,8 +119,8 @@ public class Profile {
                 ", createdAt=" + createdAt +
                 ", phoneNumber=" + phoneNumber +
                 ", email='" + email + '\'' +
+                ", trustFactor=" + trustFactor +
                 ", address=" + address +
                 '}';
     }
 }
-

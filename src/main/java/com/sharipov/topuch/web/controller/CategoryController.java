@@ -4,6 +4,7 @@ package com.sharipov.topuch.web.controller;
 import com.sharipov.topuch.application.converter.CategoryMapper;
 import com.sharipov.topuch.application.dto.CategoryDTO;
 import com.sharipov.topuch.domain.service.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,17 +13,12 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/categories")
+@RequiredArgsConstructor
 public class CategoryController {
 
 
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
-
-
-    public CategoryController(CategoryService categoryService, CategoryMapper categoryMapper) {
-        this.categoryService = categoryService;
-        this.categoryMapper = categoryMapper;
-    }
 
     @GetMapping
     public ResponseEntity<List<CategoryDTO>> getAllCategories() {

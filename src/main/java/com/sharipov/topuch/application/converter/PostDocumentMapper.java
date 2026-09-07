@@ -13,7 +13,9 @@ public interface PostDocumentMapper {
     @Mappings({
             @Mapping(target = "price", expression = "java(post.getPrice().doubleValue())"),
             @Mapping(source = "post.category.name", target = "subcategoryName"),
-            @Mapping(source = "categoryName", target = "categoryName")
+            @Mapping(source = "categoryName", target = "categoryName"),
+            @Mapping(source = "post.seller.profileId", target = "sellerId"),
+            @Mapping(source = "post.seller.trustFactor", target = "sellerTrustFactor")
 
     })
     PostDocument toPostDocument(Post post, String categoryName);

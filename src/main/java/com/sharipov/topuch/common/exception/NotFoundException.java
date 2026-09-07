@@ -11,9 +11,19 @@ public class NotFoundException extends ApiException {
     }
 
 
-    public NotFoundException categoryNotFound(){
+    public static NotFoundException categoryNotFound(){
         return new NotFoundException(MessageKey.CATEGORY_NOT_FOUND, Code.DATA_NOT_FOUND);
     }
+
+    public static NotFoundException postNotFound(){
+        return new NotFoundException(MessageKey.POST_NOT_FOUND, Code.DATA_NOT_FOUND);
+    }
+
+
+    public static NotFoundException profileNotFound(){
+        return new NotFoundException(MessageKey.USER_NOT_FOUND, Code.DATA_NOT_FOUND);
+    }
+
 
 
     @Override
